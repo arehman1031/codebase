@@ -49,10 +49,10 @@ function Get-CVEDetails {
         if ($cwe) { Write-Host "CWE         : $($cwe -join ', ')" }
 
         # CISA KEV Check (simple local download or cached; for production use GitHub raw)
-        $kevUrl = "https://raw.githubusercontent.com/cisagov/known-exploited-vulnerabilities/master/known_exploited_vulnerabilities.json"
+        $kevUrl = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
         try {
             $kevData = Invoke-RestMethod -Uri $kevUrl -Method Get
-            $isKEV = $kevData.vulnerabilities | Where-Object cveID -eq $CVE
+            $isKEV = $kevData.vulnerabilities | Where-Object cveID -eq $CVEID
             if ($isKEV) {
                 Write-Host "`n This CVE is in CISA Known Exploited Vulnerabilities (KEV)!" -ForegroundColor Red
                 Write-Host "Due Date    : $($isKEV.dueDate)"
